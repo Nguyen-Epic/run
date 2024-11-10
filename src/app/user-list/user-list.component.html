@@ -1,0 +1,154 @@
+<button
+  type="button"
+  class="btn btn-primary" (click)="IsAdd=1;IsUpdate=0"
+  data-bs-toggle="modal"
+  data-bs-target="#modalId"
+>
+  Add new
+</button>
+
+<div class="table-responsive-md">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">User</th>
+        <th scope="col">Email</th>
+        <th scope="col">Password</th>
+        <th scope="col">Role</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of userList; track $index) {
+      <tr class="">
+        <td scope="row">{{ $index + 1 }}</td>
+        <td>{{ item.username }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.password }}</td>
+        <td>{{ item.role }}</td>
+        <td>
+          <span
+            class="badge rounded-pill text-bg-warning btn btn-primary" (click)="Edit($index);IsAdd=0;IsUpdate=2"
+            data-bs-toggle="modal" data-bs-target="#modalId">Edit</span>
+          <span
+            class="badge rounded-pill text-bg-danger btn btn-primary" (click)="Delete($index)">Delete</span>
+        </td>
+      </tr>
+
+      }
+    </tbody>
+  </table>
+</div>
+
+<div
+  class="modal fade"
+  id="modalId"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  role="dialog"
+  aria-labelledby="modalTitleId"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-md"
+    role="document"
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">User Role</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formUser">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="">User name</label>
+                <input
+                  type="text"
+                  [formControl]="formUser.controls.username"
+                  name=""
+                  id=""
+                  class="form-control"
+                  placeholder=""
+                  ariadescribedby="helpId"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="">Email</label>
+                <input
+                  type="text"
+                  [formControl]="formUser.controls.email"
+                  name=""
+                  id=""
+                  class="form-control"
+                  placeholder=""
+                  ariadescribedby="helpId"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="">Password</label>
+                <input
+                  type="text"
+                  [formControl]="formUser.controls.password"
+                  name=""
+                  id=""
+                  class="form-control"
+                  placeholder=""
+                  ariadescribedby="helpId"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="">Role</label>
+                <select
+                  class="form-control"
+                  [formControl]="formUser.controls.role" name="" id="">
+                  <option ngValue="admin" [selected]="true"> Admin
+                  <option ngValue="user">User</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        @if (IsAdd==1) {
+        <button type="button" class="btn btn-primary" (click)="Add()" data-bs-dismiss="modal">
+          Save
+        </button>
+        } @if (IsUpdate==2) {
+        <button type="button" class="btn btn-primary" (click)="Update()" data-bs-dismiss="modal" >
+          Update
+        </button>
+        }
+        <button type="button" class="btn btn-primary" (click)="IsUpdate = 0; IsAdd = 0" data-bs-dismiss="modal" >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Optional: Place to the bottom of scripts -->
+<script>
+  const myModal = new bootstrap.Modal(
+    document.getElementById("modalId"),
+    options
+  );
+</script>
